@@ -1,0 +1,186 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.IO;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+namespace LibraryManagement.Modules
+{
+    public partial class NewBook : System.Web.UI.Page
+    {
+        DBProcess objDb = new DBProcess();
+        CommonClass objCom = new CommonClass();
+        protected string UploadFolderPath = ConfigurationManager.AppSettings["Upload"].ToString();
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                if (Session["Loginun"] != null && Session["Loginun"] != string.Empty)
+                {
+
+                }
+                else
+                {
+                    Response.Redirect("/Login.aspx", false);
+                    return;
+                }
+                if(Request.QueryString["BookId"] != null && Request.QueryString["BookId"].ToString() != string.Empty)
+                {
+                    txtBookId.Text = HttpUtility.UrlEncode(Request.QueryString["BookId"].ToString()).ToString();
+                    BindBookDetails();
+                }
+            }
+        }
+        private void setVisibility(int intStatus)
+        {
+            try
+            {
+                if(intStatus == 1)
+                {
+                    btnDelete.Enabled = true;
+                    btnupdate.Enabled = true;
+                    Submit.Enabled = false;
+                    
+                }
+                else if (intStatus == 3)
+                {
+                    btnDelete.Enabled = false;
+                    btnupdate.Enabled = false;
+                    Submit.Enabled = false;
+                }
+                else
+                {
+                    btnDelete.Enabled = false;
+                    btnupdate.Enabled = false;
+                    Submit.Enabled = true;
+                }
+
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+        }
+        private void BindBookDetails()
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                dt = objDb.FetchBookDetails(Convert.ToInt32(txtBookId.Text == string.Empty ? 0 : Convert.ToInt32(txtBookId.Text)),
+                    string.Empty,string.Empty,string.Empty,0);
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    txtBookName.Text = dt.Rows[0]["Book_Name"].ToString();
+                    txtpublisherName.Text = dt.Rows[0]["Publisher_Name"].ToString();
+                    txtAuthorName.Text = dt.Rows[0]["Author_Name"].ToString();
+
+                    if (dt.Rows[0]["BOOK_IMGFILENAME"].ToString() != string.Empty)
+                    {
+                        imgPhoto1.Attributes.Add("src", UploadFolderPath + dt.Rows[0]["BOOK_IMGFILENAME"].ToString());
+                        hdImg1.Value = dt.Rows[0]["BOOK_IMGFILENAME"].ToString();
+                    }
+                    else
+                    {
+                        imgPhoto1.Attributes.Add("src", UploadFolderPath + "NoImage.png");
+                        hdImg1.Value = "";
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        protected void FileUpload1_UploadedComplete(object sender, AjaxControlToolkit.AsyncFileUploadEventArgs e)
+        {
+            if (FileUpload1.HasFile)
+            {
+                try
+                {
+                    string extension = System.IO.Path.GetExtension(FileUpload1.FileName);
+                    string[] acceptedExt = { ".jpg", ".jpeg", ".png", ".gif"};
+                    if (Array.Exists(acceptedExt, element => element == extension.ToLower()))
+                    {
+                        if (FileUpload1.PostedFile != null && FileUpload1.PostedFile.FileName != string.Empty)
+                        {
+                            var documentPath = ConfigurationManager.AppSettings["Upload"].ToString();
+                            bool exists = System.IO.Directory.Exists(Server.MapPath(documentPath));
+                            if (!exists)
+                                System.IO.Directory.CreateDirectory(Server.MapPath(documentPath));
+                            if (FileUpload1.HasFile)
+                            {
+                                FileInfo info = new FileInfo(FileUpload1.FileName);
+                                string ext = info.Extension;
+                                string fileName = DateTime.Now.ToString("ddMMyyyyHHmmsstt") + ext;
+                                FileUpload1.SaveAs(Server.MapPath(documentPath) + fileName);
+                                hdImg1.Value = fileName;
+                                ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "", "jQuery('#contentPlaceholder3_imgPhoto1', window.parent.document).attr('src', '" + documentPath + fileName + "');$('#" + hdImg1.ClientID + "', window.parent.document).val('" + fileName + "');", true);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        this.objCom.message("Invalid File format! Supported File extensions are (.png,.jpg,.jpeg,.gif)", this.Page);
+                        return;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    
+                }
+            }
+        }
+
+
+        protected void Submit_Click(object sender, EventArgs e)
+        {
+            try
+            {
+               int Bookid = objDb.BookCrud(txtAuthorName.Text,txtBookName.Text,txtpublisherName.Text,
+                   Convert.ToInt32(ddlcat.SelectedValue.ToString() == string.Empty ? Convert.ToInt32(ddlcat.SelectedValue.ToString())),
+                   ddlcat.SelectedItem.ToString(),1,0,hdImg1.Value);
+                if(Bookid > 0)
+                {
+                    txtBookId.Text = Bookid.ToString();
+                    BindBookDetails();
+                }
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+        }
+
+        protected void btnupdate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+        }
+
+        protected void btnDelete_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+        }
+    }
+}

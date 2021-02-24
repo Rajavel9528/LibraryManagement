@@ -1,0 +1,35 @@
+﻿<%@ Page Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="Home.aspx.cs" Inherits="LibraryManagement.Home" %>
+
+
+<asp:Content ID="Content1" ContentPlaceHolderID="pagetitle" runat="server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="contentPlaceholder3" runat="server" ClientIDMode="Static">
+
+    <div class="container">
+        <h2>Dash Board</h2>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="row">
+                 <asp:Button ID="btnCreate" Text="Create Book" runat="server" OnClick="btnCreate_Click" />
+            </div>
+        </div>
+
+        <asp:GridView ID="gvBook" runat="server" AutoGenerateColumns="False" Width="100%" AllowPaging="false"
+            EditRowStyle-HorizontalAlign="NotSet" ShowHeaderWhenEmpty="true" EmptyDataText="No Records Found" DataKeyNames="Code"
+            CssClass="mydatagrid dt-responsive gvSerach" HeaderStyle-CssClass="header" PagerStyle-CssClass="pager"
+            RowStyle-CssClass="rows" EmptyDataRowStyle-HorizontalAlign="Center">
+            <Columns>
+                <asp:BoundField HeaderText="Book ID" DataField="BookID"></asp:BoundField>
+                <asp:BoundField HeaderText="Autho _Name" DataField="Author_Name"></asp:BoundField>
+                <asp:BoundField HeaderText="Book Name" DataField="Book_Name"></asp:BoundField>
+                <asp:BoundField HeaderText="Publisher Name" DataField="Publisher_Name"></asp:BoundField>
+                <asp:BoundField HeaderText="Category" DataField="CATEGORY_DESCRIPTION"></asp:BoundField>
+                <asp:BoundField HeaderText="Book Status" DataField="LendStatusDesc"></asp:BoundField>
+            </Columns>
+            <EmptyDataRowStyle HorizontalAlign="Center" />
+            <HeaderStyle CssClass="header" />
+            <PagerStyle CssClass="pager" />
+            <RowStyle CssClass="rows" />
+            <AlternatingRowStyle CssClass="row-alt" />
+        </asp:GridView>
+    </div>
+</asp:Content>

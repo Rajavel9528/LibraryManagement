@@ -1,0 +1,49 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+namespace LibraryManagement
+{
+    public partial class Home : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (Session["Loginun"] != null && Session["Loginun"] != string.Empty)
+            {
+                BindBooks();
+            }
+            else
+            {
+                Response.Redirect("/Login.aspx", false);
+                return;
+            }
+        }
+        private void BindBooks()
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                dt = objDb.FetchBookDetails(0, txtpib.Text, txtBook.Text, txtauthorname.Text, 0);
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    gvBook.DataSource = dt;
+                    gvBook.DataBind();
+                }
+                else
+                {
+                    DataTable emptydt = new DataTable();
+                    gvBook.DataSource = dt;
+                    gvBook.DataBind();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+    }
+}

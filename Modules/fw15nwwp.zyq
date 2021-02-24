@@ -1,0 +1,126 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+namespace LibraryManagement.Modules
+{
+    public partial class Users : System.Web.UI.Page
+    {
+        DBProcess objDb = new DBProcess();
+        CommonClass objCom = new CommonClass();
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (Session["Loginun"] != null && Session["Loginun"] != string.Empty &&
+             Session["Role"] != null && Session["Role"] != string.Empty)
+            {
+                
+            }
+            else
+            {
+                Response.Redirect("/Login.aspx", false);
+                return;
+            }
+        }
+        private void setVisibility(int intStatus)
+        {
+            try
+            {
+                if (intStatus == 1)
+                {
+                    btnDelete.Enabled = true;
+                    btnupdate.Enabled = true;
+                    btnsubmit.Enabled = false;
+
+                }
+                else if (intStatus == 3)
+                {
+                    btnDelete.Enabled = false;
+                    btnupdate.Enabled = false;
+                    btnsubmit.Enabled = false;
+                }
+                else
+                {
+                    btnDelete.Enabled = false;
+                    btnupdate.Enabled = false;
+                    btnsubmit.Enabled = true;
+                }
+
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+        protected void btnsubmit_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                 if (Page.IsValid)
+                {
+                    int UserID = objDb.UserCrud(txtUserName.Text,txtPassword.Text,Convert.ToInt16(ddlUserRole.SelectedValue.ToString())
+                        ,1,0);
+                    if (UserID > 0)
+                    {
+                        txtuserid.Text = UserID.ToString();
+                        ScriptManager.RegisterStartupScript(this, GetType(), "alertMessage", "alertMessage('New User Inserted Successfully');", true);
+                        BindUserDetails();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+        }
+        private void BindUserDetails()
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                int status = 0;
+                if (!string.IsNullOrEmpty(txtuserid.Text))
+                {
+                    dt = objDb.FetchUserDetails(Convert.ToInt32(txtuserid.Text == string.Empty ? 0 : Convert.ToInt32(txtuserid.Text)),
+                        string.Empty, string.Empty, string.Empty, 0);
+                    if (dt != null && dt.Rows.Count > 0)
+                    {
+                        txtBookName.Text = dt.Rows[0]["Book_Name"].ToString();
+                        txtpublisherName.Text = dt.Rows[0]["Publisher_Name"].ToString();
+                        txtAuthorName.Text = dt.Rows[0]["Author_Name"].ToString();
+                        ddlcat.SelectedValue = dt.Rows[0]["Category"].ToString();
+                        status = Convert.ToInt16(dt.Rows[0]["Status"].ToString());
+                        if (dt.Rows[0]["BOOK_IMGFILENAME"].ToString() != string.Empty)
+                        {
+                            Image1.ImageUrl = UploadFolderPath + dt.Rows[0]["BOOK_IMGFILENAME"].ToString();
+                            // hdImg1.Value = dt.Rows[0]["BOOK_IMGFILENAME"].ToString();
+                        }
+                        else
+                        {
+                            Image1.ImageUrl = UploadFolderPath + "NoImage.png";
+                            // hdImg1.Value = "";
+                        }
+                        setVisibility(status);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        protected void btnupdate_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnDelete_Click(object sender, EventArgs e)
+        {
+
+        }
+    }
+}

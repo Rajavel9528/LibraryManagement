@@ -1,0 +1,6 @@
+D:\WorkingSource\LibraryManagement\LibraryManagement\bin\LibraryManagement.dll.config
+D:\WorkingSource\LibraryManagement\LibraryManagement\bin\LibraryManagement.dll
+D:\WorkingSource\LibraryManagement\LibraryManagement\bin\LibraryManagement.pdb
+D:\WorkingSource\LibraryManagement\LibraryManagement\obj\Debug\LibraryManagement.csprojResolveAssemblyReference.cache
+D:\WorkingSource\LibraryManagement\LibraryManagement\obj\Debug\LibraryManagement.dll
+D:\WorkingSource\LibraryManagement\LibraryManagement\obj\Debug\LibraryManagement.pdb

@@ -1,0 +1,77 @@
+﻿<%@ Page Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="NewBook.aspx.cs" Inherits="LibraryManagement.Modules.NewBook" %>
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="pagetitle" runat="server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="contentPlaceholder3" runat="server" ClientIDMode="Static">
+
+    <div class="container">
+        <h2>Create Book</h2>
+        <div class="row">
+            <div class="col-lg-6" style="margin-top: 15px">
+                <div class="control-label" style="color: #008000; font-weight: 600">
+                    <asp:Label runat="server" ID="lblresultmsg"></asp:Label>
+                </div>
+            </div>
+        </div>
+        <form class="form-horizontal" action="/action_page.php">
+            <div class="col-lg-9 col-md-10 col-sm-10 col-xs-12">
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="Book ID">Book ID:</label>
+                <div class="col-sm-10">
+                    <asp:TextBox ID="txtBookId" runat="server" Enabled="false"></asp:TextBox>
+                </div>
+            </div>
+             <div class="form-group">
+                <label class="control-label col-sm-2" for="Book Name">Book Name:</label>
+                <div class="col-sm-10">
+                    <asp:TextBox ID="txtBookName" runat="server"></asp:TextBox>
+                    <asp:RequiredFieldValidator ID="reqBooknme" runat="server" ControlToValidate="txtBookName" ErrorMessage="* Book Name Required"></asp:RequiredFieldValidator>
+                </div>
+            </div>
+             <div class="form-group">
+                <label class="control-label col-sm-2" for="Author Name">Author Name:</label>
+                <div class="col-sm-10">
+                    <asp:TextBox ID="txtAuthorName" runat="server"></asp:TextBox>
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtAuthorName" ErrorMessage="* Author Name Required"></asp:RequiredFieldValidator>
+                </div>
+            </div>
+             <div class="form-group">
+                <label class="control-label col-sm-2" for="Book ID">Publisher Name:</label>
+                <div class="col-sm-10">
+                    <asp:TextBox ID="txtpublisherName" runat="server"></asp:TextBox>
+ <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtpublisherName" ErrorMessage="* Publisher Name Required"></asp:RequiredFieldValidator>
+                </div>
+            </div>
+             <div class="form-group">
+                <label class="control-label col-sm-2" for="Book ID">Publisher Name:</label>
+                <div class="col-sm-10">
+                  <asp:DropDownList ID="ddlcat" runat="server">
+                      <asp:ListItem Text="Select" Value="0"></asp:ListItem>
+                      <asp:ListItem Text="Sports" Value="1"></asp:ListItem>
+                      <asp:ListItem Text="Biography" Value="2"></asp:ListItem>
+                      <asp:ListItem Text="Education" Value="3"></asp:ListItem>
+                      <asp:ListItem Text="Technology" Value="4"></asp:ListItem>
+                  </asp:DropDownList>
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator3" InitialValue="0" runat="server" ControlToValidate="ddlcat" ErrorMessage="* Book Category Required"></asp:RequiredFieldValidator>
+                </div>
+            </div>
+                </div>
+            <div class="t-col t-col-xs-12 t-col-sm-12 t-col-md-4 t-col-lg-4 t-col-xl-4">
+                <div class="img-file-up">
+                    <asp:Image ID="imgPhoto1" CssClass="image-responsive" runat="server" ImageUrl="~/Images/NoImage.png" />
+                    <asp:HiddenField ID="hdImg1" runat="server" />
+                </div>
+                <div>
+                    <cc1:AsyncFileUpload  ID="FileUpload1" runat="server" CssClass="t-hidden upload1" OnUploadedComplete="FileUpload1_UploadedComplete" />
+                    <asp:Button ID="btnUpload" Text="Upload" TabIndex="12" OnClientClick="upload_img('.upload1','file');return false;" runat="server" />
+                </div>
+            </div>
+            <div class="form-group">
+               <asp:Button ID="Submit" Text="Create" runat="server" CssClass="btn btn-primary" OnClick="Submit_Click" />
+                <asp:Button ID="btnupdate" Text="Update" runat="server" CssClass="btn btn-primary" OnClick="btnupdate_Click" />
+                   <asp:Button ID="btnDelete" Text="Delete" runat="server" CssClass="btn btn-primary" OnClick="btnDelete_Click" />
+            </div>
+        </form>
+    </div>
+</asp:Content>

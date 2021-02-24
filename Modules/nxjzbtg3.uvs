@@ -1,0 +1,133 @@
+﻿<%@ Page Language="C#" MasterPageFile="~/Site1.Master" EnableEventValidation="false"  AutoEventWireup="true" CodeBehind="Users.aspx.cs" Inherits="LibraryManagement.Modules.Users" %>
+
+
+<asp:Content ID="Content1" ContentPlaceHolderID="pagetitle" runat="server">
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="contentPlaceholder3" runat="server" ClientIDMode="Static">
+
+    <style type="text/css">
+        /* style all input elements with a required attribute */
+        input:required {
+            box-shadow: 4px 4px 20px rgba(200, 0, 0, 0.85);
+        }
+
+            /**
+ * style input elements that have a required
+ * attribute and a focus state
+ */
+            input:required:focus {
+                border: 1px solid red;
+                outline: none;
+            }
+    </style>
+    <script type="text/javascript">
+        function alertMessage(msg) {
+            alert(msg);
+
+        }
+       
+        $(function () {
+            if (typeof ValidatorUpdateDisplay != 'undefined') {
+                var originalValidatorUpdateDisplay = ValidatorUpdateDisplay;
+
+                ValidatorUpdateDisplay = function (val) {
+                    if (!val.isvalid) {
+                        $("#" + val.controltovalidate).closest("div").addClass("form-error");
+                    }
+
+                    originalValidatorUpdateDisplay(val);
+                }
+            }
+        });
+
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+              .forEach(function (form) {
+                  form.addEventListener('submit', function (event) {
+                      if (!form.checkValidity()) {
+                          event.preventDefault()
+                          event.stopPropagation()
+                      }
+
+                      form.classList.add('was-validated')
+                  }, false)
+              })
+        })()
+
+    </script>
+    <div class="container">
+        <h2>Create Book</h2>
+        <div class="row">
+            <div class="col-lg-6" style="margin-top: 15px">
+                <div class="control-label" style="color: #008000; font-weight: 600">
+                    <asp:Label runat="server" ID="lblresultmsg"></asp:Label>
+                </div>
+            </div>
+        </div>
+        <div class="page-content" id="AddUser">
+            <div class="content">
+                <div class="form-horizontal nomargin" style="display: block;">
+                    <div class="col-md-10 col-md-offset-1 empwrapper rowborder">
+                        <div class="col-md-12">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="row">
+                                    <div class="col-lg4 col-md-4 col-sm-4 col-xs-4">
+
+                                        <div class="col-md-12">
+                                            <label for="txtuserid" class="form-label">User ID</label>
+                                            <asp:TextBox ID="txtuserid" CssClass="form-control" runat="server" Enabled="false"></asp:TextBox>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label for="txtUserName" class="form-label">User Name</label>
+                                            <asp:TextBox ID="txtUserName"  CssClass="form-control" runat="server" required></asp:TextBox>
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator4" ValidationGroup="AddUser" CssClass="Required" runat="server" ControlToValidate="txtUserName" ErrorMessage="* User Name Required"></asp:RequiredFieldValidator>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label for="txtuserRole" class="form-label">User Role</label>
+                                             <asp:DropDownList ID="ddlUserRole"   CssClass="form-control" runat="server" data-toggle="tooltip" data-placement="top">
+                                                <asp:ListItem Text="Select" Value="0"></asp:ListItem>
+                                                <asp:ListItem Text="Admin" Value="1"></asp:ListItem>
+                                                <asp:ListItem Text="Normal USer" Value="2"></asp:ListItem>
+                                            </asp:DropDownList>
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator5" ValidationGroup="AddUser" CssClass="Required"  runat="server" ControlToValidate="ddlUserRole" ErrorMessage="* User Role Required"></asp:RequiredFieldValidator>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <label for="txtPassword" class="form-label">Password</label>
+                                           <%-- <asp:TextBox ID="txtPassword"  CssClass="form-control" TextMode="Password" runat="server" required></asp:TextBox>--%>
+                                            <input type="password" runat="server" id="txtPassword" name="psw" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" CssClass="Required" ValidationGroup="AddUser"  runat="server" ControlToValidate="txtPassword" ErrorMessage="* Password Required"></asp:RequiredFieldValidator>
+                                        </div>
+
+                                         
+
+                                    </div>
+                                    <div id="message">
+                                        <h3>Password must contain the following:</h3>
+                                        <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+                                        <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
+                                        <p id="number" class="invalid">A <b>number</b></p>
+                                        <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+                                    </div>
+                                    <div class="col-12">
+                                        <asp:Button ID="btnsubmit" Text="Create" runat="server" CssClass="btn btn-primary" OnClick="btnsubmit_Click" ValidationGroup="AddUser" />
+                                        <asp:Button ID="btnupdate" Text="Update" runat="server" CssClass="btn btn-primary" OnClick="btnupdate_Click" ValidationGroup="AddUser" />
+                                        <asp:Button ID="btnDelete" Text="Delete" runat="server" CssClass="btn btn-primary" OnClick="btnDelete_Click" ValidationGroup="AddUser"/>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</asp:Content>

@@ -1,0 +1,43 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Web;
+using LibraryManagement;
+
+namespace LibraryManagement
+{
+    public class DBProcess
+    {
+        CommonClass objComCls = new CommonClass();  
+        public int AreaProcess(Int32 Ccode, string Code, string Name, string Description, int MadeBy, int ModiBy, int Status, string Operation)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.Parameters.AddWithValue("@SAM_CODE", Code);
+                cmd.Parameters.AddWithValue("@SAM_CCODE", Ccode);
+                cmd.Parameters.AddWithValue("@SAM_NAME", Name);
+                cmd.Parameters.AddWithValue("@SAM_DESC", Description);
+                cmd.Parameters.AddWithValue("@SAM_MADEBY", MadeBy);
+                cmd.Parameters.AddWithValue("@SAM_MODIBY", ModiBy);
+                cmd.Parameters.AddWithValue("@SAM_STATUS", Status);
+
+                cmd.Parameters.AddWithValue("@operation", Operation);
+                int RET = objComCls.ExecuteQuery("PBC102SAM_DBOPERATIONS", cmd);
+                if (RET > 0)
+                {
+                    return RET;
+                }
+                else
+                    return 0;
+
+
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+        }
+    }
+}

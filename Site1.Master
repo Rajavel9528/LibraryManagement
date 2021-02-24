@@ -1,0 +1,89 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site1.master.cs" Inherits="LibraryManagement.Site1" %>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+        <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+         <script type="text/javascript">
+             function showSuccess(namefld) {
+                 if ($('#' + namefld).hasClass('haserror'))
+                     $('#' + namefld).removeClass('haserror');
+                 $('#' + namefld).removeAttr("data-original-title");
+             }
+             function showFailure(namefld, failmsg) {
+                 $('#' + namefld).addClass('haserror');
+                 $('#' + namefld).attr("data-original-title", failmsg);
+             }
+             function requiredFieldValidation(Field) {
+                 if (document.getElementById(Field).value == '') {
+                     showFailure(Field, 'Required');
+                 }
+                 else {
+                     showSuccess(Field);
+                 }
+             }
+         </script>
+        <style>
+            .ReqRed {
+    border: 2px solid rgba(234, 11, 11, 0.98) !important;
+    -webkit-box-shadow: inset 0px 0px 10px 0px rgba(253, 0, 0, 0.06), 0px 0px 1px 0px rgba(255, 0, 0, 0.4) !important;
+    box-shadow: inset 0px 0px 10px 0px rgba(253, 0, 0, 0.06), 0px 0px 1px 0px rgba(255, 0, 0, 0.4) !important;
+}
+            .Required{
+                display:block;
+                font-size:11px;
+                color:red;
+            }
+            body {
+                margin: 0;
+                font-family: Arial, Helvetica, sans-serif;
+            }
+
+            .topnav {
+                overflow: hidden;
+                background-color: #333;
+            }
+
+                .topnav a {
+                    float: left;
+                    color: #f2f2f2;
+                    text-align: center;
+                    padding: 14px 16px;
+                    text-decoration: none;
+                    font-size: 17px;
+                }
+
+                    .topnav a:hover {
+                        background-color: #ddd;
+                        color: black;
+                    }
+
+                    .topnav a.active {
+                        background-color: #4CAF50;
+                        color: white;
+                    }
+        </style>
+    <asp:ContentPlaceHolder ID="pagetitle" runat="server">\</asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                <div class="topnav">
+                    <a class="active" href="/Home.aspx">Home</a>
+                    <a href="/Modules/BookDetails.aspx">Books</a>
+                    <a href="/Modules/UserDetails.aspx">Users</a>
+                       <a href="/Modules/GetBook.aspx">Get Book</a>
+                      <a href="/Logout.aspx">LogOut</a>
+                </div>
+            </asp:ContentPlaceHolder>
+        </div>
+          <asp:ContentPlaceHolder ID="contentPlaceholder3" runat="server">
+            </asp:ContentPlaceHolder>
+    </form>
+</body>
+</html>
