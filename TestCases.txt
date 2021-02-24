@@ -1,0 +1,12 @@
+Test Cases
+=========
+01. Login With Admin user and check privileges
+02. Login With Normal user and check privileges
+03. Crud of Book
+04. Crud of Users
+05. Check Validations in both
+06. try to same user name 
+07. Get same book for multiple users and multiple time by same use
+08. Search a book with filters
+09. Check Admin User CRUD the Books and User.
+10. Logout and try view a page
